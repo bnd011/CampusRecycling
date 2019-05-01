@@ -13,4 +13,3 @@ public class Vertex <Type extends Comparable>
     }
 }
 
-//Hi, Holland
