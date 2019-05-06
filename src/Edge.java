@@ -1,4 +1,4 @@
-public class Edge <Type extends Comparable>
+public class Edge
 {
     Vertex origin = new Vertex();
     Vertex destination = new Vertex();

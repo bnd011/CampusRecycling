@@ -1,13 +1,13 @@
-public class Vertex <Type extends Comparable>
+public class Vertex
 {
-    private Type data;
+    private String data;
 
-    public Type getData()
+    public String getData()
     {
         return data;
     }
 
-    public void setData(Type data)
+    public void setData(String data)
     {
         this.data = data;
     }
