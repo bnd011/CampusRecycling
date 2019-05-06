@@ -12,6 +12,3 @@ public class Vertex <Type extends Comparable>
         this.data = data;
     }
 }
-
-//hello Breham part 2
-//Hello GEagin
