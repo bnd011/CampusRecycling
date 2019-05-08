@@ -1,3 +1,4 @@
+/*
 public class Graph
 {
     private int numV = 0;
@@ -33,9 +34,11 @@ public class Graph
 
     // adds an edge to adjList for an undirected graph
     // adapted from https://www.geeksforgeeks.org/graph-and-its-representations/
-    public void addEdge(Graph graph, int origin, int destination)
+    public void addEdge(String v1, String v2)
     {
-
+        Vertex origin = new Vertex(v1);
+        Vertex destination = new Vertex(v2);
+        adjList[v1].insertAfter(v2);
     }
 
     // removes an edge from adjList
@@ -77,3 +80,4 @@ public class Graph
 
 
 }
+*/
