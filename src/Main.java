@@ -12,13 +12,14 @@ public class Main
     {
         File vertices = new File("src//vertices.csv");
         Scanner verticesInput = new Scanner(vertices);
+        List<String> vertexList = new List<>();
         while (verticesInput.hasNextLine())
         {
             String currentVertex = verticesInput.nextLine();
-            String[] vertexArray = currentVertex.split("\\n");
-            System.out.println(Arrays.toString(vertexArray));
+            //System.out.println(currentVertex);
+            vertexList.insertAfter(currentVertex);
         }
-
+        System.out.println(vertexList);
     }
 
 

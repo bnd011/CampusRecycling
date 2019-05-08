@@ -1,4 +1,3 @@
-/*
 public class Edge
 {
     Vertex origin = new Vertex();
@@ -33,4 +32,3 @@ public class Edge
         this.destination = destination;
     }
 }
-*/
