@@ -1,14 +1,26 @@
 public class Graph
 {
-    int numV = 0;
-    List<Vertex> adjList = new List<>();
-    boolean directed = false;
+    private int numV = 0;
+    private List<String> adjList[];
+    private boolean directed = false;
 
+    // constructor
+    // adapted from https://www.geeksforgeeks.org/graph-and-its-representations/
+    public Graph (int numV)
+    {
+        this.numV = numV;
+        adjList = new List[numV];
+        for (int i = 0; i < numV; i++)
+            adjList[i] = new List<>();
+    }
+
+    // lists all edges
     public List allEdges()
     {
 
     }
 
+    // traverses through the graph using Dijkstra's algorithm
     public Vertex dijkstra()
     {
 
@@ -19,37 +31,45 @@ public class Graph
 
     }
 
-    public void addEdge() // adds an edge to adjList
+    // adds an edge to adjList for an undirected graph
+    // adapted from https://www.geeksforgeeks.org/graph-and-its-representations/
+    public void addEdge(Graph graph, int origin, int destination)
     {
 
     }
 
-    public void removeEdge() // removes an edge from adjList
+    // removes an edge from adjList
+    public void removeEdge()
     {
 
     }
 
-    public void addVertex() // adds a vertex and its edges
+    // adds a vertex and its edges
+    public void addVertex()
     {
 
     }
 
-    public void removeVertex() // removes a vertex and its edges
+    // removes a vertex and its edges
+    public void removeVertex()
     {
 
     }
 
-    public int degree() // returns the degree of a vertex
+    // returns the degree of a vertex
+    public int degree()
     {
 
     }
 
-    public Edge incidentEdges() // returns all outgoing edges of a vertex
+    // returns all outgoing edges of a vertex
+    public Edge incidentEdges()
     {
 
     }
 
-    public int edgeSum() // returns the sum of the weights of the edges
+    // returns the sum of the weights of the edges
+    public int edgeSum()
     {
 
     }

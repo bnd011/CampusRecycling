@@ -5,11 +5,30 @@ public class Edge
 
     public Vertex endpoints()
     {
+    }
+
+    public Vertex opposite(Vertex v)
+    {
+
+    }
+
+    public Vertex getOrigin()
+    {
         return origin;
     }
 
-    public Vertex opposite()
+    public void setOrigin(Vertex origin)
     {
+        this.origin = origin;
+    }
 
+    public Vertex getDestination()
+    {
+        return destination;
+    }
+
+    public void setDestination(Vertex destination)
+    {
+        this.destination = destination;
     }
 }
