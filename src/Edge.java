@@ -1,8 +1,28 @@
+import java.util.Arrays;
+
 public class Edge
 {
-    Vertex origin = new Vertex();
-    Vertex destination = new Vertex();
+    private Vertex origin;
+    private Vertex destination;
 
+    public float getWeight()
+    {
+        return weight;
+    }
+
+    public void setWeight(float weight)
+    {
+        this.weight = weight;
+    }
+
+    float weight;
+
+    // constructor
+    public Edge(Vertex orig, Vertex dest)
+    {
+        origin = orig;
+        destination = dest;
+    }
     public Vertex getOrigin()
     {
         return origin;
@@ -24,9 +44,12 @@ public class Edge
     }
 
     // returns both vertices
-    public Vertex endpoints(Vertex origin, Vertex destination)
+    public Vertex[] endpoints(Vertex origin, Vertex destination)
     {
-        return origin, destination;
+        Vertex[] endpoints = new Vertex[2];
+        endpoints[0] = origin;
+        endpoints[1] = destination;
+        return endpoints;
     }
 
     // returns the other vertex that is not passed in as a parameter

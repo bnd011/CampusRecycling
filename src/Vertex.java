@@ -1,14 +1,12 @@
 public class Vertex
 {
-    // adapted from Textbook: Data Structures and Algorithms in Java by Robert Lafore
-    // https://rineshpk.weebly.com/uploads/1/8/2/0/1820991/data_structures_and_algorithms_in_javatqw_darksiderg.pdf
-    private String label;
+    private String data;
     private boolean visited;
+    private int index;
 
     // constructor
     public Vertex(String data)
     {
-        label = data;
         visited = false;
     }
 
@@ -21,4 +19,15 @@ public class Vertex
     {
         this.data = data;
     }
+
+    public int getIndex()
+    {
+        return index;
+    }
+
+    public void setIndex(int index)
+    {
+        this.index = index;
+    }
+
 }
