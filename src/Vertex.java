@@ -1,7 +1,7 @@
 public class Vertex
 {
     private String data;
-    private boolean visited;
+    public boolean visited;
     private int index;
 
     // constructor

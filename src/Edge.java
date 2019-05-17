@@ -4,17 +4,6 @@ public class Edge
 {
     private Vertex origin;
     private Vertex destination;
-
-    public float getWeight()
-    {
-        return weight;
-    }
-
-    public void setWeight(float weight)
-    {
-        this.weight = weight;
-    }
-
     float weight;
 
     // constructor
@@ -23,24 +12,12 @@ public class Edge
         origin = orig;
         destination = dest;
     }
-    public Vertex getOrigin()
-    {
-        return origin;
-    }
 
-    public void setOrigin(Vertex origin)
+    public Edge(Vertex orig, Vertex dest, float cost)
     {
-        this.origin = origin;
-    }
-
-    public Vertex getDestination()
-    {
-        return destination;
-    }
-
-    public void setDestination(Vertex destination)
-    {
-        this.destination = destination;
+        origin = orig;
+        destination = dest;
+        weight = cost;
     }
 
     // returns both vertices
@@ -61,5 +38,35 @@ public class Edge
         else if (v == destination)
             return origin;
         else throw new IllegalArgumentException("Illegal vertex");
+    }
+
+    public Vertex getOrigin()
+    {
+        return origin;
+    }
+
+    public void setOrigin(Vertex origin)
+    {
+        this.origin = origin;
+    }
+
+    public Vertex getDestination()
+    {
+        return destination;
+    }
+
+    public void setDestination(Vertex destination)
+    {
+        this.destination = destination;
+    }
+
+    public float getWeight()
+    {
+        return weight;
+    }
+
+    public void setWeight(float weight)
+    {
+        this.weight = weight;
     }
 }
