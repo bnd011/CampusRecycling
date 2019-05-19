@@ -166,6 +166,37 @@ public class Graph
         }
     }
 
+    // Thanks, again, HARVEY, AUSTINS!
+    public void BFS(Graph g, Vertex u)
+    {
+        Vertex[] parents = new Vertex[numV];
+        Queue<Vertex> queue = new Stack<>();
+
+        queue.enqueue(u);
+        u.visited = true;
+        while (!queue.isEmpty())
+        {
+            for (int i = 0; i < adjMat.length; i++)
+            {
+                vertexList.setPos(i);
+                if ((adjMat[queue.peek().getIndex()][i] != null) && (!vertexList.getValue().visited))
+                {
+                    vertexList.getValue().visited = true;
+                    Vertex temp = adjMat[queue.peek().getIndex()][i].opposite(queue.peek());
+                    parents[temp.getIndex()] = queue.peek();
+                    queue.enqueue(temp);
+                }
+            }
+            queue.dequeue();
+        }
+
+        for (int i = 0; i < vertexList.getSize(); i++)
+        {
+            vertexList.setPos(i);
+            vertexList.getValue().visited = false;
+        }
+    }
+
     // traverses through the graph using Dijkstra's algorithm
     // Austin helped me with this
     public void dijkstra(Graph g, Vertex u)
