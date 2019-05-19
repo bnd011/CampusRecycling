@@ -3,7 +3,6 @@ public class Graph
     private int numV = 0; // number of vertices
     private List<Vertex> vertexList; // array of vertices
     private Edge adjMat[][]; // adjacency matrix
-    private Stack stack;
     private Queue queue;
     private boolean directed = false;
 
@@ -79,8 +78,8 @@ public class Graph
     // update the adjacency matrix (at least when a vertex is inserted)
     public void updateAdjMat()
     {
-        Edge oldAdjMat[][] = adjMat;
-        Edge newAdjMat[][] = new Edge[numV][numV];
+        Edge[][] oldAdjMat = adjMat;
+        Edge[][] newAdjMat = new Edge[numV][numV];
         if (oldAdjMat != null)
         {
             for (int i = 0; i < oldAdjMat.length; i++)
@@ -135,56 +134,35 @@ public class Graph
         return result;
     }
 
-    public int getAdjUnvisitedVertex(int v)
-    {
-        for (int i = 0; i < numV; i++)
-        {
-            if (adjMat[v][i] == 1 && !vertexList[i].visited)
-                return i;
-        }
-        return -1;
-    }
-
+    // Thanks, again, HARVEY, AUSTINS!
     public void DFS(Graph g, Vertex u)
     {
+        Vertex[] parents = new Vertex[numV];
+        Stack<Vertex> stack = new Stack<>();
+
+        stack.push(u);
         u.visited = true;
-        for (Vertex v : g.adjMat[u])
-        vertexList[0].visited = true;
-        stack.push(0);
         while (!stack.isEmpty())
         {
-            int v = getAdjUnvisitedVertex((Integer) stack.peek());
-            if (v == -1)
-                stack.pop();
-            else
+            for (int i = 0; i < adjMat.length; i++)
             {
-                vertexList[v].visited = true;
-                stack.push(v);
+                vertexList.setPos(i);
+                if ((adjMat[stack.peek().getIndex()][i] != null) && (!vertexList.getValue().visited))
+                {
+                    vertexList.getValue().visited = true;
+                    Vertex temp = adjMat[stack.peek().getIndex()][i].opposite(stack.peek());
+                    parents[temp.getIndex()] = stack.peek();
+                    stack.push(temp);
+                    i = -1;
+                }
             }
-        }
-        for (int j = 0; j < numV; j++)
-            vertexList[j].visited = false;
-    }
-
-    public void BFS()
-    {
-        vertexList[0].visited = true;
-        queue.enqueue(0);
-        int v2;
-
-        while (!queue.isEmpty())
-        {
-            int v1 = queue.dequeue();
-            while ((v2 = getAdjUnvisitedVertex(v1)) != -1)
-            {
-                vertexList[v2].visited = true;
-                queue.enqueue(v2);
-            }
+            stack.pop();
         }
 
-        for (int i = 0; i < numV; i++)
+        for (int i = 0; i < vertexList.getSize(); i++)
         {
-            vertexList[i].visited = false;
+            vertexList.setPos(i);
+            vertexList.getValue().visited = false;
         }
     }
 
