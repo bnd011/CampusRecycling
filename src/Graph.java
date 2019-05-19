@@ -170,7 +170,7 @@ public class Graph
     public void BFS(Graph g, Vertex u)
     {
         Vertex[] parents = new Vertex[numV];
-        Queue<Vertex> queue = new Stack<>();
+        Queue<Vertex> queue = new Queue<>();
 
         queue.enqueue(u);
         u.visited = true;
