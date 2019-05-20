@@ -1,6 +1,4 @@
-import java.util.Arrays;
-
-public class Edge
+public class Edge<Type extends Comparable>
 {
     private Vertex origin;
     private Vertex destination;

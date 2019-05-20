@@ -1,4 +1,4 @@
-public class Graph
+public class Graph<Type extends Comparable>
 {
     private int numV = 0; // number of vertices
     private List<Vertex> vertexList; // array of vertices
@@ -6,18 +6,27 @@ public class Graph
     private Queue queue;
     private boolean directed = false;
 
-    public void setDirected(boolean directed)
+    public Graph()
     {
-        this.directed = directed;
+        numV = 0;
+        adjMat = null;
+        vertexList = new List<>();
+        directed = false;
     }
 
     // constructor
     // adapted from https://www.geeksforgeeks.org/graph-and-its-representations/
+
     public Graph (int numV)
     {
         this.numV = numV;
         vertexList = new List<>();
         adjMat = new Edge[numV][numV];
+    }
+
+    public void setDirected(boolean directed)
+    {
+        this.directed = directed;
     }
 
     // lists all edges
@@ -54,8 +63,8 @@ public class Graph
 
     public void addEdge(Vertex origin, Vertex destination, float weight)
     {
-        adjMat[origin.getIndex()][destination.getIndex()] = new Edge(origin, destination);
-        adjMat[destination.getIndex()][origin.getIndex()] = new Edge(destination, origin);
+        adjMat[origin.getIndex()][destination.getIndex()] = new Edge(origin, destination, weight);
+        adjMat[destination.getIndex()][origin.getIndex()] = new Edge(destination, origin, weight);
     }
 
     // removes an edge from adjMat
@@ -73,6 +82,20 @@ public class Graph
         vertexList.getValue().setIndex(vertexList.getPos());
         numV++;
         updateAdjMat();
+    }
+
+    //Thanks, Austin.
+    public Vertex findVertex(String data)
+    {
+        for (int i = 0; i < vertexList.getSize(); i++)
+        {
+            vertexList.setPos(i);
+            if (vertexList.getValue().getData().compareTo(data) == 0)
+                return vertexList.getValue();
+        }
+
+        System.out.println("Vertex not found.");
+        return null;
     }
 
     // update the adjacency matrix (at least when a vertex is inserted)
@@ -258,11 +281,60 @@ public class Graph
         return minIndex;
     }
 
-    private void printPath(Graph g, Vertex[] path ,Vertex u)
+    // referenced Geeks for Geeks and totalhorizon.com
+    public float primMST(Graph g, Vertex u)
     {
-        for (int i = 0; i < path.length; i++)
-        {
+        Vertex[] mst = new Vertex[numV];
+        //store mst array
+        float [] cost = new float[numV];
+        //used to pick min weight
+        boolean[] minMST = new boolean[numV];
 
+
+        for (int i = 0; i < cost.length ; i++)
+        {
+            cost[i] = Integer.MAX_VALUE; //makes all infinity
         }
+
+        cost[u.getIndex()] = 0; //making the key 0 so the first index picked is zero
+
+        float distance = 0;
+        for (int i = 0; i < cost.length ; i++) {
+            int next = (findMinVertex(cost, minMST)); //calls minVertex and adds in the minMST and key
+            minMST[next] = true;
+
+            //had to borrow this second for loop from Austin
+            for(int k = 0; k < adjMat.length; k++) {
+                if (adjMat[next][k] != null && !minMST[k]) {
+                    cost[k] = adjMat[next][k].getWeight();
+                    vertexList.setPos(next);
+                    mst[k] = vertexList.getValue();
+                }
+            }
+            distance = distance + cost[i];
+        }
+        System.out.println("The distance for the MST is: " + distance);
+        printPath(g, mst, u);
+        return distance;
+    }
+
+    private void printPath(Graph g, Vertex[] path, Vertex u)
+    {
+        List<Vertex> pathList = new List<>();
+        for (Vertex vertex : path)
+        {
+            pathList.insertAfter(vertex);
+        }
+
+        pathList.first();
+
+        for (int i = 0; i < vertexList.getSize(); i++)
+        {
+            pathList.next();
+            vertexList.setPos(i);
+            pathList.insertAfter(vertexList.getValue());
+        }
+
+        System.out.println("Path: " + pathList);
     }
 }

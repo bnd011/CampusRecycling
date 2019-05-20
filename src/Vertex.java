@@ -1,4 +1,4 @@
-public class Vertex
+public class Vertex<Type extends Comparable>
 {
     private String data;
     public boolean visited;
