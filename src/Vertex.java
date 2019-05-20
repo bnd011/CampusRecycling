@@ -7,6 +7,7 @@ public class Vertex<Type extends Comparable>
     // constructor
     public Vertex(String data)
     {
+        this.data = data;
         visited = false;
     }
 

@@ -3,7 +3,6 @@ public class Graph<Type extends Comparable>
     private int numV = 0; // number of vertices
     private List<Vertex> vertexList; // array of vertices
     private Edge adjMat[][]; // adjacency matrix
-    private Queue queue;
     private boolean directed = false;
 
     public Graph()
@@ -15,13 +14,24 @@ public class Graph<Type extends Comparable>
     }
 
     // constructor
-    // adapted from https://www.geeksforgeeks.org/graph-and-its-representations/
-
     public Graph (int numV)
     {
         this.numV = numV;
         vertexList = new List<>();
         adjMat = new Edge[numV][numV];
+        makeAdjMat(numV);
+    }
+
+    public void makeAdjMat(int numV)
+    {
+        adjMat = new Edge[numV][numV];
+        for (int i = 0; i < numV; i++)
+        {
+            for (int j = 0; j < numV; j++)
+            {
+                adjMat[i][j] = null;
+            }
+        }
     }
 
     public void setDirected(boolean directed)
@@ -33,12 +43,12 @@ public class Graph<Type extends Comparable>
     public List allEdges()
     {
         List edgeList = null;
-        for (int i = 0; i < adjMat.length; i++)
+        for (Edge[] edges : adjMat)
         {
-            for (int j = 0; j < adjMat[i].length; j++)
+            for (Edge edge : edges)
             {
-                if (adjMat[i][j] != null)
-                    edgeList.insertAfter(adjMat[i][j]);
+                if (edge != null)
+                    edgeList.insertAfter(edge);
             }
         }
         return edgeList;
@@ -63,8 +73,12 @@ public class Graph<Type extends Comparable>
 
     public void addEdge(Vertex origin, Vertex destination, float weight)
     {
-        adjMat[origin.getIndex()][destination.getIndex()] = new Edge(origin, destination, weight);
-        adjMat[destination.getIndex()][origin.getIndex()] = new Edge(destination, origin, weight);
+        int originIndex = origin.getIndex();
+        int destIndex = destination.getIndex();
+        Edge e = new Edge(origin, destination, weight);
+        Edge f = new Edge(destination, origin, weight);
+        adjMat[originIndex][destIndex] = e;
+        adjMat[destIndex][originIndex] = f;
     }
 
     // removes an edge from adjMat
@@ -79,7 +93,7 @@ public class Graph<Type extends Comparable>
     {
         Vertex newVertex = new Vertex(label);
         vertexList.insertAfter(newVertex);
-        vertexList.getValue().setIndex(vertexList.getPos());
+        //vertexList.getValue().setIndex(vertexList.getPos());
         numV++;
         updateAdjMat();
     }
@@ -181,6 +195,7 @@ public class Graph<Type extends Comparable>
             vertexList.setPos(i);
             vertexList.getValue().visited = false;
         }
+        g.printPath(g, parents, u);
     }
 
     // Thanks, again, Austin!
@@ -313,21 +328,12 @@ public class Graph<Type extends Comparable>
         return distance;
     }
 
-    private void printPath(Graph g, Vertex[] path, Vertex u)
+    public void printPath(Graph g, Vertex[] path, Vertex u)
     {
         List<Vertex> pathList = new List<>();
         for (Vertex vertex : path)
         {
             pathList.insertAfter(vertex);
-        }
-
-        pathList.first();
-
-        for (int i = 0; i < vertexList.getSize(); i++)
-        {
-            pathList.next();
-            vertexList.setPos(i);
-            pathList.insertAfter(vertexList.getValue());
         }
 
         System.out.println("Path: " + pathList);
