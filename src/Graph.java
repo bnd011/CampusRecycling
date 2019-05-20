@@ -134,7 +134,7 @@ public class Graph
         return result;
     }
 
-    // Thanks, again, HARVEY, AUSTINS!
+    // Thanks, again, Austin!
     public void DFS(Graph g, Vertex u)
     {
         Vertex[] parents = new Vertex[numV];
@@ -166,7 +166,7 @@ public class Graph
         }
     }
 
-    // Thanks, again, HARVEY, AUSTINS!
+    // Thanks, again, Austin!
     public void BFS(Graph g, Vertex u)
     {
         Vertex[] parents = new Vertex[numV];
@@ -201,42 +201,68 @@ public class Graph
     // Austin helped me with this
     public void dijkstra(Graph g, Vertex u)
     {
-        int[] cost = new int[numV]; // shortest known distance from "s"
+        boolean[] known = new boolean[numV]; // all false initially;
+        float[] cost = new float[numV]; // shortest known distance from "s"
         Vertex[] path = new Vertex[numV]; // preceding Vertex in path;
-        boolean unknown[] = new boolean[numV]; // all false initially;
+
+        // initialize the arrays
+        for (int i = 1; i < known.length; i++)
+            known[i] = false;
+        known[u.getIndex()] = true;
 
         for (int i = 0; i < cost.length; i++)
-        {
             cost[i] = Integer.MAX_VALUE;
-        }
         cost[u.getIndex()] = 0;
 
-        //iterate the vertex which costs least
-        for (int i = 0; i < cost.length; i++)
+        for (Vertex vertex : path)
+            path[vertex.getIndex()] = null;
+
+        for (int i = 0; i < adjMat.length; i++)
         {
-            int next_Index = (minVertex(cost, unknown));
-            unknown[next_Index] = true;
-            if (g.incidentEdges(vertexList.get(next_Index)) != null)
+            if (adjMat[u.getIndex()][i] != null)
             {
-                for (int j = 0; j < adjMat.length; j++)
+                cost[i] = adjMat[u.getIndex()][i].getWeight();
+                path[i] = u;
+            }
+        }
+
+        int next = findMinVertex(cost, known);
+        known[next] = true;
+
+        for (int i = 0; i < adjMat.length; i++)
+        {
+            if (!known[i] && adjMat[next][i] != null)
+            {
+                cost[i] = Math.min(cost[i], (cost[next] + adjMat[next][i].getWeight()));
+                if (cost[i] == (cost[next] + adjMat[next][i].getWeight()))
                 {
-                    if (adjMat[next_Index][j] != null &&!unknown[j])
-                    {
-                        cost[j] = Math.min(cost[j], (cost[next_Index] + adjMat[next_Index][j].getWeight()));
-                        if(cost[j]== (cost[next_Index] + adjMat[next_Index][j].getWeight()))// updated*
-                        {
-                            path[j] = vertexList.get(next_Index);
-                        }
-                    }
+                    vertexList.setPos(i);
+                    path[i] = vertexList.getValue();
                 }
             }
-            else
+        }
+    }
+
+    public int findMinVertex (float[] cost, boolean[] known)
+    {
+        float minCost = Integer.MAX_VALUE;
+        int minIndex = -1;
+        for (int i = 0; i < cost.length; i++)
+        {
+            if ((cost[i] < minCost) && !known[i])
             {
-                System.out.println("No Path");
+                minIndex = i;
+                minCost = cost[i];
             }
-            System.out.println("The distance for " + u + " to " + vertexList.get(next_Index)+ " will be "+ cost[vertexList.get(next_Index).getIndex()] );
+        }
+        return minIndex;
+    }
+
+    private void printPath(Graph g, Vertex[] path ,Vertex u)
+    {
+        for (int i = 0; i < path.length; i++)
+        {
 
         }
-        printPath(g,path,u);
     }
 }
