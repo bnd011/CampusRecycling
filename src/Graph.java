@@ -115,12 +115,6 @@ public class Graph<Type extends Comparable>
         }
     }
 
-    // removes a vertex and its edges
-   /* public void removeVertex()
-    {
-
-    }*/
-
     // returns the degree of a vertex
     public int degree(int row)
     {
