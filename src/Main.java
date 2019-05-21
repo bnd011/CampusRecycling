@@ -39,6 +39,7 @@ public class Main
 
         if (startingVertex != null)
         {
+            System.out.println("Dijkstra");
             long startTimeDijkstra = System.currentTimeMillis();
             map.dijkstra(map, startingVertex);
             System.out.println();
@@ -46,27 +47,26 @@ public class Main
             long elapsedTimeDijkstra = endTimeDijkstra - startTimeDijkstra;
             System.out.println("The Dijkstra Algorithm took " + elapsedTimeDijkstra + " ms.");
             System.out.println();
-            System.out.println();
 
+            System.out.println("Prim-Jarnik");
             long startTimePrim = System.currentTimeMillis();
             map.primMST(map, startingVertex);
             System.out.println();
             long endTimePrim = System.currentTimeMillis();
             long elapsedTimePrim = endTimePrim - startTimePrim;
-            System.out.println("The Dijkstra Algorithm took " + elapsedTimePrim + " ms.");
+            System.out.println("The Prim Algorithm took " + elapsedTimePrim + " ms.");
             System.out.println();
-            System.out.println();
-
-            System.out.println("Max Spanning Tree");
-            map.maxST(map, startingVertex);
-            System.out.println();
-            System.out.println();
-
             if (elapsedTimeDijkstra < elapsedTimePrim)
                 System.out.println("Dijkstra ran quicker than Prim-Jarnik.");
             if (elapsedTimePrim < elapsedTimeDijkstra)
                 System.out.println("Prim-Jarnik ran quicker than Dijkstra.");
 
+            System.out.println();
+            System.out.println("Max Spanning Tree");
+            map.maxST(map, startingVertex);
+            System.out.println();
+
+            System.out.println();
             System.out.println("DFS");
             map.DFS(map, startingVertex);
             System.out.println();

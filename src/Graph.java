@@ -249,7 +249,7 @@ public class Graph<Type extends Comparable>
             cost[i] = Integer.MAX_VALUE;
         cost[u.getIndex()] = 0;
 
-        for (int i = 0; i < adjMat.length; i++)
+        for (int i = 0; i < cost.length; i++)
         {
             if (adjMat[u.getIndex()][i] != null)
             {
@@ -277,6 +277,7 @@ public class Graph<Type extends Comparable>
                 }
             }
         }
+
         g.printPath(g, path, u);
     }
 
@@ -291,6 +292,7 @@ public class Graph<Type extends Comparable>
             cost[i] = Integer.MAX_VALUE; //makes all infinity
         cost[u.getIndex()] = 0; //making the key 0 so the first index picked is zero
 
+        int totalCost = 0;
         int distance = 0;
         for (int i = 0; i < cost.length ; i++)
         {
@@ -307,11 +309,13 @@ public class Graph<Type extends Comparable>
                     cost[k] = adjMat[next][k].getWeight();
                     vertexList.setPos(next);
                     mst[k] = vertexList.getValue();
+                    totalCost += adjMat[next][k].getWeight();
                 }
             }
             distance = distance + cost[next];
         }
         System.out.println("The distance for the Minimum Spanning Tree is: " + distance);
+        //System.out.println("It's total cost was: " + totalCost);
         printPath(g, mst, u);
         return distance;
     }
@@ -328,6 +332,7 @@ public class Graph<Type extends Comparable>
 
         cost[u.getIndex()] = 0; //making the key 0 so the first index picked is zero
 
+        int totalCost = 0;
         int distance = 0;
         for (int i = 0; i < cost.length ; i++)
         {
@@ -344,11 +349,13 @@ public class Graph<Type extends Comparable>
                     cost[k] = adjMat[next][k].getWeight();
                     vertexList.setPos(next);
                     mst[k] = vertexList.getValue();
+                    totalCost += adjMat[next][k].getWeight();
                 }
             }
             distance = distance + cost[i];
         }
         System.out.println("The distance for the Maximum Spanning Tree is: " + distance);
+        //System.out.println("It's total cost was: " + totalCost);
         printPath(g, mst, u);
         return distance;
     }
