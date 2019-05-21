@@ -13,21 +13,12 @@ public class Main
         File vertices = new File("src//vertices.csv");
         Scanner verticesInput = new Scanner(vertices);
         String[] vertex = verticesInput.nextLine().split(", ");
-        //while (verticesInput.hasNextLine())
-        //{
-            //String currentVertex = verticesInput.nextLine();
-            //vertex = currentVertex.split(", ");
-            for (String s : vertex)
-            {
-                map.addVertex(s);
-            }
+        for (String s : vertex)
+            map.addVertex(s);
 
-            //System.out.println(currentVertex);
-            //vertexList.insertAfter(currentVertex);
-        //}
         map.makeAdjMat(vertex.length);
 
-        File edges = new File("src//edgesTest.csv");
+        File edges = new File("src//edges.csv");
         Scanner edgesInput = new Scanner(edges);
         while (edgesInput.hasNextLine())
         {
@@ -39,9 +30,14 @@ public class Main
             map.addEdge(origin, destination, weight);
         }
 
-        Vertex<String> startingVertex = new Vertex<>("A.E. Phillips Laboratory School");
-        map.BFS(map, startingVertex);
+        //map.vertexList.first();
 
-        System.out.println(map);
+        Scanner userInput = new Scanner(System.in);
+        System.out.println("Which building would you like to start from? ");
+        String input = userInput.nextLine();
+        Vertex<String> startingVertex = map.findVertex(input);
+
+        if(startingVertex != null)
+            map.dijkstra(map, startingVertex);
     }
 }

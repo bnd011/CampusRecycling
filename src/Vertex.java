@@ -30,5 +30,9 @@ public class Vertex<Type extends Comparable>
     {
         this.index = index;
     }
+    public String toString()
+    {
+        return data.toString();
+    }
 
 }

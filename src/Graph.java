@@ -1,10 +1,11 @@
 public class Graph<Type extends Comparable>
 {
     private int numV = 0; // number of vertices
-    private List<Vertex> vertexList; // array of vertices
+    public List<Vertex> vertexList; // array of vertices
     private Edge adjMat[][]; // adjacency matrix
     private boolean directed = false;
 
+    // constructor
     public Graph()
     {
         numV = 0;
@@ -13,7 +14,6 @@ public class Graph<Type extends Comparable>
         directed = false;
     }
 
-    // constructor
     public Graph (int numV)
     {
         this.numV = numV;
@@ -92,9 +92,11 @@ public class Graph<Type extends Comparable>
     public void addVertex(String label)
     {
         Vertex newVertex = new Vertex(label);
-        vertexList.insertAfter(newVertex);
-        //vertexList.getValue().setIndex(vertexList.getPos());
+        vertexList.last();
         numV++;
+        vertexList.insertAfter(newVertex);
+        vertexList.getValue().setIndex(vertexList.getPos());
+        //vertexList.getValue().setIndex(vertexList.getPos());
         updateAdjMat();
     }
 
@@ -227,6 +229,7 @@ public class Graph<Type extends Comparable>
             vertexList.setPos(i);
             vertexList.getValue().visited = false;
         }
+        g.printPath(g, parents, u);
     }
 
     // traverses through the graph using Dijkstra's algorithm
@@ -246,9 +249,6 @@ public class Graph<Type extends Comparable>
             cost[i] = Integer.MAX_VALUE;
         cost[u.getIndex()] = 0;
 
-        for (Vertex vertex : path)
-            path[vertex.getIndex()] = null;
-
         for (int i = 0; i < adjMat.length; i++)
         {
             if (adjMat[u.getIndex()][i] != null)
@@ -258,21 +258,28 @@ public class Graph<Type extends Comparable>
             }
         }
 
-        int next = findMinVertex(cost, known);
-        known[next] = true;
-
-        for (int i = 0; i < adjMat.length; i++)
+        for (int i = 0; i < adjMat.length-1; i++)
         {
-            if (!known[i] && adjMat[next][i] != null)
+            int next = findMinVertex(cost, known);
+            if(next== -1)
             {
-                cost[i] = Math.min(cost[i], (cost[next] + adjMat[next][i].getWeight()));
-                if (cost[i] == (cost[next] + adjMat[next][i].getWeight()))
+                continue;
+            }
+            known[next] = true;
+            for (int j = 0; j < adjMat.length; j++)
+            {
+                if (!known[j] && adjMat[next][j] != null)
                 {
-                    vertexList.setPos(i);
-                    path[i] = vertexList.getValue();
+                    cost[j] = Math.min(cost[j], (cost[next] + adjMat[next][j].getWeight()));
+                    if (cost[j] == (cost[next] + adjMat[next][j].getWeight()))
+                    {
+                        vertexList.setPos(next);
+                        path[j] = vertexList.getValue();
+                    }
                 }
             }
         }
+        g.printPath(g, path, u);
     }
 
     public int findMinVertex (float[] cost, boolean[] known)
@@ -294,10 +301,8 @@ public class Graph<Type extends Comparable>
     // referenced Geeks for Geeks and totalhorizon.com
     public float primMST(Graph g, Vertex u)
     {
-        Vertex[] mst = new Vertex[numV];
-        //store mst array
-        float [] cost = new float[numV];
-        //used to pick min weight
+        Vertex[] mst = new Vertex[numV]; //store mst array
+        float [] cost = new float[numV]; //used to pick min weight
         boolean[] minMST = new boolean[numV];
 
 
@@ -330,13 +335,30 @@ public class Graph<Type extends Comparable>
 
     public void printPath(Graph g, Vertex[] path, Vertex u)
     {
-        List<Vertex> pathList = new List<>();
-        for (Vertex vertex : path)
+        for (int i = 0; i < path.length; i++)
         {
-            pathList.insertAfter(vertex);
-        }
+            List pathList = new List<>();
+            Vertex v = path[i];
+            if (path[i] == null)
+            {
+                vertexList.setPos(i);
+                System.out.println(vertexList.getValue());
+            }
 
-        System.out.println("Path: " + pathList);
+            else
+            {
+                vertexList.setPos(i);
+                pathList.insertBefore(vertexList.getValue());
+                while (!v.equals(u))
+                {
+                    pathList.insertBefore(v);
+                    v = path[v.getIndex()];
+                }
+
+                pathList.insertBefore(u);
+                System.out.println(pathList);
+            }
+        }
     }
 
     //exact opposite of find min vertex

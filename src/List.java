@@ -396,7 +396,7 @@ public class List<Type>
             Node n = head;
             while (n.getLink() != null)
             {
-                s = s + n.getData() + " ";
+                s = s + n.getData() + ", ";
                 n= n.getLink();
                 i--;
             }
