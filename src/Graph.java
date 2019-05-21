@@ -233,7 +233,7 @@ public class Graph<Type extends Comparable>
     }
 
     // traverses through the graph using Dijkstra's algorithm
-    // Austin helped me with this
+    // Austin helped me with this (of course)
     public void dijkstra(Graph g, Vertex u)
     {
         boolean[] known = new boolean[numV]; // all false initially;
@@ -261,10 +261,8 @@ public class Graph<Type extends Comparable>
         for (int i = 0; i < adjMat.length-1; i++)
         {
             int next = findMinVertex(cost, known);
-            if(next== -1)
-            {
+            if(next == -1)
                 continue;
-            }
             known[next] = true;
             for (int j = 0; j < adjMat.length; j++)
             {
@@ -282,22 +280,6 @@ public class Graph<Type extends Comparable>
         g.printPath(g, path, u);
     }
 
-    public int findMinVertex (float[] cost, boolean[] known)
-    {
-        float minCost = Integer.MAX_VALUE;
-        int minIndex = -1;
-        for (int i = 0; i < cost.length; i++)
-        {
-            if ((cost[i] < minCost) && !known[i])
-            {
-                minIndex = i;
-                minCost = cost[i];
-            }
-        }
-        return minIndex;
-    }
-
-
     // referenced Geeks for Geeks and totalhorizon.com
     public float primMST(Graph g, Vertex u)
     {
@@ -313,6 +295,8 @@ public class Graph<Type extends Comparable>
         for (int i = 0; i < cost.length ; i++)
         {
             int next = (findMinVertex(cost, known)); //calls minVertex and adds in the minMST and key
+            if(next == -1)
+                continue;
             known[next] = true;
 
             //had to borrow this second for loop from Austin
@@ -330,6 +314,74 @@ public class Graph<Type extends Comparable>
         System.out.println("The distance for the MST is: " + distance);
         printPath(g, mst, u);
         return distance;
+    }
+
+    //this is literally just the opposite of prim
+    public float maxST(Graph g, Vertex u)
+    {
+        Vertex[] mst = new Vertex[numV]; //store mst array
+        float [] cost = new float[numV]; //used to pick min weight
+        boolean[] known = new boolean[numV];
+
+        for (int i = 0; i < cost.length ; i++)
+            cost[i] = Integer.MIN_VALUE; //makes all infinity
+
+        cost[u.getIndex()] = 0; //making the key 0 so the first index picked is zero
+
+        float distance = 0;
+        for (int i = 0; i < cost.length ; i++)
+        {
+            int next = (findMaxVertex(cost, known)); //calls minVertex and adds in the minMST and key
+            if(next == -1)
+                continue;
+            known[next] = true;
+
+            //had to borrow this second for loop from Austin
+            for(int k = 0; k < adjMat.length; k++)
+            {
+                if (adjMat[next][k] != null && !known[k])
+                {
+                    cost[k] = adjMat[next][k].getWeight();
+                    vertexList.setPos(next);
+                    mst[k] = vertexList.getValue();
+                }
+            }
+            distance = distance + cost[i];
+        }
+        System.out.println("The distance for the MST is: " + distance);
+        printPath(g, mst, u);
+        return distance;
+    }
+
+    public int findMinVertex (float[] cost, boolean[] known)
+    {
+        float minCost = Integer.MAX_VALUE;
+        int minIndex = -1;
+        for (int i = 0; i < cost.length; i++)
+        {
+            if ((cost[i] < minCost) && !known[i])
+            {
+                minIndex = i;
+                minCost = cost[i];
+            }
+        }
+        return minIndex;
+    }
+
+    //exact opposite of find min vertex
+    public int findMaxVertex (float[] cost, boolean[] known)
+    {
+        float minCost = Integer.MIN_VALUE;
+        int minIndex = -1;
+        for (int i = 0; i < cost.length; i++)
+        {
+            if ((cost[i] < minCost) && !known[i])
+            {
+                minIndex = i;
+                minCost = cost[i];
+            }
+        }
+        return minIndex;
     }
 
     public void printPath(Graph g, Vertex[] path, Vertex u)
@@ -358,56 +410,5 @@ public class Graph<Type extends Comparable>
                 System.out.println(pathList);
             }
         }
-    }
-
-    //exact opposite of find min vertex
-    public int findMaxVertex (float[] cost, boolean[] known)
-    {
-        float minCost = Integer.MIN_VALUE;
-        int minIndex = -1;
-        for (int i = 0; i < cost.length; i++)
-        {
-            if ((cost[i] < minCost) && !known[i])
-            {
-                minIndex = i;
-                minCost = cost[i];
-            }
-        }
-        return minIndex;
-    }
-
-    //this is literally just the opposite of prim
-    public float maxST(Graph g, Vertex u)
-    {
-        Vertex[] mst = new Vertex[numV]; //store mst array
-        float [] cost = new float[numV]; //used to pick min weight
-        boolean[] minMST = new boolean[numV];
-
-        for (int i = 0; i < cost.length ; i++)
-            cost[i] = Integer.MAX_VALUE; //makes all infinity
-
-        cost[u.getIndex()] = 0; //making the key 0 so the first index picked is zero
-
-        float distance = 0;
-        for (int i = 0; i < cost.length ; i++)
-        {
-            int next = (findMaxVertex(cost, minMST)); //calls minVertex and adds in the minMST and key
-            minMST[next] = true;
-
-            //had to borrow this second for loop from Austin
-            for(int k = 0; k < adjMat.length; k++)
-            {
-                if (adjMat[next][k] != null && !minMST[k])
-                {
-                    cost[k] = adjMat[next][k].getWeight();
-                    vertexList.setPos(next);
-                    mst[k] = vertexList.getValue();
-                }
-            }
-            distance = distance + cost[i];
-        }
-        System.out.println("The distance for the MST is: " + distance);
-        printPath(g, mst, u);
-        return distance;
     }
 }

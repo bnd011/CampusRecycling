@@ -38,21 +38,32 @@ public class Main
 
         if (startingVertex != null)
         {
-            map.DFS(map, startingVertex);
-            System.out.println();
-            System.out.println();
-
-            map.BFS(map, startingVertex);
-            System.out.println();
-            System.out.println();
-
+            System.out.println("Dijkstra");
             map.dijkstra(map, startingVertex);
             System.out.println();
             System.out.println();
 
+            System.out.println("Prim-Jarnik");
             map.primMST(map, startingVertex);
             System.out.println();
             System.out.println();
+
+            System.out.println("Max Spanning Tree");
+            map.maxST(map, startingVertex);
+            System.out.println();
+            System.out.println();
+
+            System.out.println("DFS");
+            map.DFS(map, startingVertex);
+            System.out.println();
+            System.out.println();
+
+            System.out.println("BFS");
+            map.BFS(map, startingVertex);
+            System.out.println();
+            System.out.println();
+
+
         }
 
         else System.out.println("Error");
