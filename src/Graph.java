@@ -244,6 +244,7 @@ public class Graph<Type extends Comparable>
             known[i] = false;
         known[u.getIndex()] = true;
 
+
         for (int i = 0; i < cost.length; i++)
             cost[i] = Integer.MAX_VALUE;
         cost[u.getIndex()] = 0;
@@ -257,7 +258,7 @@ public class Graph<Type extends Comparable>
             }
         }
 
-        for (int i = 0; i < adjMat.length - 1; i++)
+        for (int i = 0; i < cost.length - 1; i++)
         {
             int next = findMinVertex(cost, known);
             if(next == -1)
@@ -308,7 +309,7 @@ public class Graph<Type extends Comparable>
                     mst[k] = vertexList.getValue();
                 }
             }
-            distance = distance + cost[i];
+            distance = distance + cost[next];
         }
         System.out.println("The distance for the Minimum Spanning Tree is: " + distance);
         printPath(g, mst, u);

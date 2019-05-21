@@ -62,6 +62,11 @@ public class Main
             System.out.println();
             System.out.println();
 
+            if (elapsedTimeDijkstra < elapsedTimePrim)
+                System.out.println("Dijkstra ran quicker than Prim-Jarnik.");
+            if (elapsedTimePrim < elapsedTimeDijkstra)
+                System.out.println("Prim-Jarnik ran quicker than Dijkstra.");
+
             System.out.println("DFS");
             map.DFS(map, startingVertex);
             System.out.println();
