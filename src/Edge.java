@@ -2,7 +2,7 @@ public class Edge<Type extends Comparable>
 {
     private Vertex origin;
     private Vertex destination;
-    float weight;
+    int weight;
 
     // constructor
     public Edge(Vertex orig, Vertex dest)
@@ -11,7 +11,7 @@ public class Edge<Type extends Comparable>
         destination = dest;
     }
 
-    public Edge(Vertex orig, Vertex dest, float cost)
+    public Edge(Vertex orig, Vertex dest, int cost)
     {
         origin = orig;
         destination = dest;
@@ -58,12 +58,12 @@ public class Edge<Type extends Comparable>
         this.destination = destination;
     }
 
-    public float getWeight()
+    public int getWeight()
     {
         return weight;
     }
 
-    public void setWeight(float weight)
+    public void setWeight(int weight)
     {
         this.weight = weight;
     }

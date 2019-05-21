@@ -19,6 +19,7 @@ public class Main
             map.addVertex(s);
 
         map.makeAdjMat(vertex.length);
+
         File edges = new File("src//edges.csv");
         Scanner edgesInput = new Scanner(edges);
         while (edgesInput.hasNextLine())
@@ -27,7 +28,7 @@ public class Main
             String[] edge = currentEdge.split(", ");
             Vertex origin = map.findVertex(edge[0]);
             Vertex destination = map.findVertex(edge[1]);
-            float weight = Float.parseFloat(edge[2]);
+            int weight = Integer.parseInt(edge[2]);
             map.addEdge(origin, destination, weight);
         }
 
@@ -38,13 +39,21 @@ public class Main
 
         if (startingVertex != null)
         {
-            System.out.println("Dijkstra");
+            long startTimeDijkstra = System.currentTimeMillis();
             map.dijkstra(map, startingVertex);
+            System.out.println();
+            long endTimeDijkstra = System.currentTimeMillis();
+            long elapsedTimeDijkstra = endTimeDijkstra - startTimeDijkstra;
+            System.out.println("The Dijkstra Algorithm took " + elapsedTimeDijkstra + " ms.");
             System.out.println();
             System.out.println();
 
-            System.out.println("Prim-Jarnik");
+            long startTimePrim = System.currentTimeMillis();
             map.primMST(map, startingVertex);
+            System.out.println();
+            long endTimePrim = System.currentTimeMillis();
+            long elapsedTimePrim = endTimePrim - startTimePrim;
+            System.out.println("The Dijkstra Algorithm took " + elapsedTimePrim + " ms.");
             System.out.println();
             System.out.println();
 
@@ -62,8 +71,6 @@ public class Main
             map.BFS(map, startingVertex);
             System.out.println();
             System.out.println();
-
-
         }
 
         else System.out.println("Error");

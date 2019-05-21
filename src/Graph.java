@@ -71,7 +71,7 @@ public class Graph<Type extends Comparable>
         adjMat[destination.getIndex()][origin.getIndex()] = new Edge(destination, origin);
     }
 
-    public void addEdge(Vertex origin, Vertex destination, float weight)
+    public void addEdge(Vertex origin, Vertex destination, int weight)
     {
         int originIndex = origin.getIndex();
         int destIndex = destination.getIndex();
@@ -96,7 +96,6 @@ public class Graph<Type extends Comparable>
         numV++;
         vertexList.insertAfter(newVertex);
         vertexList.getValue().setIndex(vertexList.getPos());
-        //vertexList.getValue().setIndex(vertexList.getPos());
         updateAdjMat();
     }
 
@@ -156,9 +155,9 @@ public class Graph<Type extends Comparable>
     }
 
     // returns the sum of the weights of the edges
-    public float edgeSum(Vertex v)
+    public int edgeSum(Vertex v)
     {
-        float result = 0;
+        int result = 0;
         for (int i = 0; i < adjMat.length; i++)
         {
             if (adjMat[v.getIndex()][i] != null)
@@ -237,7 +236,7 @@ public class Graph<Type extends Comparable>
     public void dijkstra(Graph g, Vertex u)
     {
         boolean[] known = new boolean[numV]; // all false initially;
-        float[] cost = new float[numV]; // shortest known distance from "s"
+        int[] cost = new int[numV]; // shortest known distance from "s"
         Vertex[] path = new Vertex[numV]; // preceding Vertex in path;
 
         // initialize the arrays
@@ -258,7 +257,7 @@ public class Graph<Type extends Comparable>
             }
         }
 
-        for (int i = 0; i < adjMat.length-1; i++)
+        for (int i = 0; i < adjMat.length - 1; i++)
         {
             int next = findMinVertex(cost, known);
             if(next == -1)
@@ -281,17 +280,17 @@ public class Graph<Type extends Comparable>
     }
 
     // referenced Geeks for Geeks and totalhorizon.com
-    public float primMST(Graph g, Vertex u)
+    public int primMST(Graph g, Vertex u)
     {
         Vertex[] mst = new Vertex[numV]; //store mst array
-        float[] cost = new float[numV]; //used to pick min weight
+        int[] cost = new int[numV]; //used to pick min weight
         boolean[] known = new boolean[numV];
 
         for (int i = 0; i < cost.length ; i++)
             cost[i] = Integer.MAX_VALUE; //makes all infinity
         cost[u.getIndex()] = 0; //making the key 0 so the first index picked is zero
 
-        float distance = 0;
+        int distance = 0;
         for (int i = 0; i < cost.length ; i++)
         {
             int next = (findMinVertex(cost, known)); //calls minVertex and adds in the minMST and key
@@ -311,16 +310,16 @@ public class Graph<Type extends Comparable>
             }
             distance = distance + cost[i];
         }
-        System.out.println("The distance for the MST is: " + distance);
+        System.out.println("The distance for the Minimum Spanning Tree is: " + distance);
         printPath(g, mst, u);
         return distance;
     }
 
     //this is literally just the opposite of prim
-    public float maxST(Graph g, Vertex u)
+    public int maxST(Graph g, Vertex u)
     {
         Vertex[] mst = new Vertex[numV]; //store mst array
-        float [] cost = new float[numV]; //used to pick min weight
+        int[] cost = new int[numV]; //used to pick min weight
         boolean[] known = new boolean[numV];
 
         for (int i = 0; i < cost.length ; i++)
@@ -328,11 +327,11 @@ public class Graph<Type extends Comparable>
 
         cost[u.getIndex()] = 0; //making the key 0 so the first index picked is zero
 
-        float distance = 0;
+        int distance = 0;
         for (int i = 0; i < cost.length ; i++)
         {
             int next = (findMaxVertex(cost, known)); //calls minVertex and adds in the minMST and key
-            if(next == -1)
+            if (next == -1)
                 continue;
             known[next] = true;
 
@@ -348,14 +347,14 @@ public class Graph<Type extends Comparable>
             }
             distance = distance + cost[i];
         }
-        System.out.println("The distance for the MST is: " + distance);
+        System.out.println("The distance for the Maximum Spanning Tree is: " + distance);
         printPath(g, mst, u);
         return distance;
     }
 
-    public int findMinVertex (float[] cost, boolean[] known)
+    public int findMinVertex (int[] cost, boolean[] known)
     {
-        float minCost = Integer.MAX_VALUE;
+        int minCost = Integer.MAX_VALUE;
         int minIndex = -1;
         for (int i = 0; i < cost.length; i++)
         {
@@ -363,25 +362,26 @@ public class Graph<Type extends Comparable>
             {
                 minIndex = i;
                 minCost = cost[i];
+
             }
         }
         return minIndex;
     }
 
     //exact opposite of find min vertex
-    public int findMaxVertex (float[] cost, boolean[] known)
+    public int findMaxVertex (int[] cost, boolean[] known)
     {
-        float minCost = Integer.MIN_VALUE;
-        int minIndex = -1;
+        int maxCost = Integer.MIN_VALUE;
+        int maxIndex = -1;
         for (int i = 0; i < cost.length; i++)
         {
-            if ((cost[i] < minCost) && !known[i])
+            if ((cost[i] > maxCost) && !known[i])
             {
-                minIndex = i;
-                minCost = cost[i];
+                maxIndex = i;
+                maxCost = cost[i];
             }
         }
-        return minIndex;
+        return maxIndex;
     }
 
     public void printPath(Graph g, Vertex[] path, Vertex u)
