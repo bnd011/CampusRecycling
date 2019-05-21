@@ -302,25 +302,24 @@ public class Graph<Type extends Comparable>
     public float primMST(Graph g, Vertex u)
     {
         Vertex[] mst = new Vertex[numV]; //store mst array
-        float [] cost = new float[numV]; //used to pick min weight
-        boolean[] minMST = new boolean[numV];
-
+        float[] cost = new float[numV]; //used to pick min weight
+        boolean[] known = new boolean[numV];
 
         for (int i = 0; i < cost.length ; i++)
-        {
             cost[i] = Integer.MAX_VALUE; //makes all infinity
-        }
-
         cost[u.getIndex()] = 0; //making the key 0 so the first index picked is zero
 
         float distance = 0;
-        for (int i = 0; i < cost.length ; i++) {
-            int next = (findMinVertex(cost, minMST)); //calls minVertex and adds in the minMST and key
-            minMST[next] = true;
+        for (int i = 0; i < cost.length ; i++)
+        {
+            int next = (findMinVertex(cost, known)); //calls minVertex and adds in the minMST and key
+            known[next] = true;
 
             //had to borrow this second for loop from Austin
-            for(int k = 0; k < adjMat.length; k++) {
-                if (adjMat[next][k] != null && !minMST[k]) {
+            for (int k = 0; k < adjMat.length; k++)
+            {
+                if (adjMat[next][k] != null && !known[k])
+                {
                     cost[k] = adjMat[next][k].getWeight();
                     vertexList.setPos(next);
                     mst[k] = vertexList.getValue();
@@ -380,28 +379,26 @@ public class Graph<Type extends Comparable>
     //this is literally just the opposite of prim
     public float maxST(Graph g, Vertex u)
     {
-        Vertex[] mst = new Vertex[numV];
-        //store mst array
-        float [] cost = new float[numV];
-        //used to pick min weight
+        Vertex[] mst = new Vertex[numV]; //store mst array
+        float [] cost = new float[numV]; //used to pick min weight
         boolean[] minMST = new boolean[numV];
 
-
         for (int i = 0; i < cost.length ; i++)
-        {
             cost[i] = Integer.MAX_VALUE; //makes all infinity
-        }
 
         cost[u.getIndex()] = 0; //making the key 0 so the first index picked is zero
 
         float distance = 0;
-        for (int i = 0; i < cost.length ; i++) {
+        for (int i = 0; i < cost.length ; i++)
+        {
             int next = (findMaxVertex(cost, minMST)); //calls minVertex and adds in the minMST and key
             minMST[next] = true;
 
             //had to borrow this second for loop from Austin
-            for(int k = 0; k < adjMat.length; k++) {
-                if (adjMat[next][k] != null && !minMST[k]) {
+            for(int k = 0; k < adjMat.length; k++)
+            {
+                if (adjMat[next][k] != null && !minMST[k])
+                {
                     cost[k] = adjMat[next][k].getWeight();
                     vertexList.setPos(next);
                     mst[k] = vertexList.getValue();

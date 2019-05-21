@@ -2,6 +2,8 @@
 // 15 May 2019
 // CampusRecycling: A program that designs an efficient way to handle how recyclers pick up recycling bins.
 
+import jdk.swing.interop.SwingInterOpUtils;
+
 import java.util.Scanner;
 import java.io.*;
 
@@ -17,7 +19,6 @@ public class Main
             map.addVertex(s);
 
         map.makeAdjMat(vertex.length);
-
         File edges = new File("src//edges.csv");
         Scanner edgesInput = new Scanner(edges);
         while (edgesInput.hasNextLine())
@@ -30,14 +31,30 @@ public class Main
             map.addEdge(origin, destination, weight);
         }
 
-        //map.vertexList.first();
-
         Scanner userInput = new Scanner(System.in);
         System.out.println("Which building would you like to start from? ");
         String input = userInput.nextLine();
         Vertex<String> startingVertex = map.findVertex(input);
 
-        if(startingVertex != null)
+        if (startingVertex != null)
+        {
+            map.DFS(map, startingVertex);
+            System.out.println();
+            System.out.println();
+
+            map.BFS(map, startingVertex);
+            System.out.println();
+            System.out.println();
+
             map.dijkstra(map, startingVertex);
+            System.out.println();
+            System.out.println();
+
+            map.primMST(map, startingVertex);
+            System.out.println();
+            System.out.println();
+        }
+
+        else System.out.println("Error");
     }
 }
